@@ -125,5 +125,5 @@ class TestFinancialDataClient(unittest.TestCase):
 TestFinancialDataClient.initialize()
 if __name__ == '__main__':
     print('Starting API Tests...')
-
     unittest.main()
+
