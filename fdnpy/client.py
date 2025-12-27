@@ -198,6 +198,29 @@ class FinancialDataClient:
         return self.get_data('crypto-minute-prices', params=params, limit=300)
 
     # ==========================================
+    # Forex Data
+    # ==========================================
+
+    def get_forex_symbols(self) -> List[Dict]:
+
+        return self.get_data('forex-symbols')
+
+    def get_forex_quotes(self, identifiers: List[str]) -> List[Dict]:
+
+        params = {'identifiers': ','.join(identifiers)}
+        return self.get_data('forex-quotes', params=params, limit=300)
+
+    def get_forex_prices(self, identifier: str) -> List[Dict]:
+
+        params = {'identifier': identifier}
+        return self.get_data('forex-prices', params=params, limit=300)
+
+    def get_forex_minute_prices(self, identifier: str, date: str) -> List[Dict]:
+
+        params = {'identifier': identifier, 'date': date}
+        return self.get_data('forex-minute-prices', params=params, limit=300)
+
+    # ==========================================
     # Basic Information
     # ==========================================
 

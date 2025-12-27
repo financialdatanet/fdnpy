@@ -24,6 +24,9 @@ class TestFinancialDataClient(unittest.TestCase):
                    'crypto_quotes': {'identifiers': ['BTCUSD', 'ETHUSD']},
                    'crypto_prices': {'identifier': 'BTCUSD'},
                    'crypto_minute_prices': {'identifier': 'BTCUSD', 'date': '2025-01-15'},
+                   'forex_quotes': {'identifiers': ['EURUSD', 'GBPUSD']},
+                   'forex_prices': {'identifier': 'EURUSD'},
+                   'forex_minute_prices': {'identifier': 'EURUSD', 'date': '2025-01-15'},
                    'company_information': {'identifier': 'MSFT'},
                    'international_company_information': {'identifier': 'SHEL.L'},
                    'key_metrics': {'identifier': 'MSFT'},
@@ -78,7 +81,7 @@ class TestFinancialDataClient(unittest.TestCase):
               if callable(attr):
                   method_names.append(name)
 
-        assert len(method_names) == 73
+        assert len(method_names) == 77
 
         return sorted(method_names)
 
@@ -126,4 +129,3 @@ TestFinancialDataClient.initialize()
 if __name__ == '__main__':
     print('Starting API Tests...')
     unittest.main()
-

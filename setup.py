@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fdnpy',
-    version='0.1.0',
+    version='0.2.0',
     description='A Python SDK for FinancialData.Net API',
     url='https://github.com/financialdatanet/fdnpy',
     packages=find_packages(),
