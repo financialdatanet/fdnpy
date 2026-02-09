@@ -110,6 +110,11 @@ Handles pagination and aggregates all available records.
 - get_profitability_ratios(identifier, period=None)
 - get_valuation_ratios(identifier, period=None)
 
+### Market News
+- get_press_releases(identifier)
+- get_sec_press_releases(date)
+- get_fed_press_releases(date)
+
 ### Event Calendars
 - get_earnings_calendar(date)
 - get_ipo_calendar(date)
@@ -160,7 +165,7 @@ Handles pagination and aggregates all available records.
 
 All endpoint methods return lists of dictionaries parsed directly from the API JSON responses.
 
-## API Documentation
+# API Documentation
 
 #### Introduction
 
@@ -170,7 +175,9 @@ When making requests, ensure that each URL ends with ?key=API\_KEY. If the URL a
 
 Some API endpoints may specify a limit on records to be retrieved per API call. To retrieve all the data available from these endpoints, use the offset parameter. For example, if the record limit is 500, then with the first API call, you will retrieve records 0–499, with the second API call records 500–999, etc.
 
-#### Stock Symbols <code>Free Subscription</code>
+For fast and easy integration into your applications, we recommend using our official [Python SDK](https://github.com/financialdatanet/fdnpy) (available on GitHub). It provides a straightforward way to access all API functionalities.
+
+#### Stock Symbols <code>Free subscription</code>
 
 Get a list of stock symbols for publicly traded US and international companies. The list contains thousands of trading symbols as well as the names of the companies whose shares they identify. There is a limit of 500 records per API call.
 
@@ -203,7 +210,7 @@ Get a list of stock symbols for publicly traded US and international companies. 
   ]
   ```
 
-#### International Stock Symbols <code>Free Subscription</code>
+#### International Stock Symbols <code>Free subscription</code>
 
 Retrieve a list of stock symbols for publicly traded international companies. Data is available for the following stock exchanges: Toronto, London, Frankfurt, Euronext Paris, Euronext Amsterdam, Tokyo, Hong Kong, Singapore, Indonesia, Malaysia, Korea, Brazil, Mexico, India, Bombay. There is a limit of 500 records per API call.
 
@@ -236,7 +243,7 @@ Retrieve a list of stock symbols for publicly traded international companies. Da
   ]
   ```
 
-#### Etf Symbols <code>Free Subscription</code>
+#### Etf Symbols <code>Free subscription</code>
 
 An exchange-traded fund (ETF) is a type of investment fund that trades on the stock exchange. ETFs own financial assets such as stocks, bonds, currencies, futures contracts, or commodities. Our API can provide you with a list of a few thousand ETF trading symbols, together with their descriptions. There is a limit of 500 records per API call.
 
@@ -269,7 +276,7 @@ An exchange-traded fund (ETF) is a type of investment fund that trades on the st
   ]
   ```
 
-#### Commodity Symbols <code>Free Subscription</code>
+#### Commodity Symbols <code>Free subscription</code>
 
 The commodity market covers the trading of raw materials like oil, gold, coffee, etc. This API endpoint provides trading symbols and additional information for major commodities.
 
@@ -301,7 +308,7 @@ The commodity market covers the trading of raw materials like oil, gold, coffee,
   ]
   ```
 
-#### Otc Symbols <code>Free Subscription</code>
+#### Otc Symbols <code>Free subscription</code>
 
 The over-the-counter (OTC) market is where securities are traded through a network of brokers and dealers rather than on a centralized exchange. OTC stocks typically indicate ownership of equity in smaller companies that do not meet the requirements for regular listings. Our API gives you access to thousands of OTC symbols and additional information about them. There is a limit of 500 records per API call.
 
@@ -370,7 +377,7 @@ Get real-time stock quotes, including the last price, change, and percentage cha
   ]
   ```
 
-#### Stock Prices <code>Free Subscription</code>
+#### Stock Prices <code>Free subscription</code>
 
 The API endpoint provides more than 10 years of daily historical stock prices and volumes. The data covers several thousand US and international companies. There is a limit of 300 records per API call.
 
@@ -531,7 +538,7 @@ Get one-minute stock prices and trading volumes for the current week. Data is av
   ]
   ```
 
-#### Commodity Prices <code>Free Subscription</code>
+#### Commodity Prices <code>Free subscription</code>
 
 The commodity market comprises the trading of raw materials such as oil, gold, coffee, etc. Our API offers over ten years of end-of-day historical prices and volumes for major commodities. There is a limit of 300 records per API call.
 
@@ -571,7 +578,7 @@ The commodity market comprises the trading of raw materials such as oil, gold, c
   ]
   ```
 
-#### Otc Prices <code>Free Subscription</code>
+#### Otc Prices <code>Free subscription</code>
 
 The over-the-counter (OTC) market is a market in which securities are traded through a network of brokers and dealers rather than on a centralized exchange. OTC stocks often represent ownership of equity in smaller companies that do not meet the requirements for regular listings. The API endpoint provides over ten years of daily historical prices and volumes for more than 10,000 OTC securities. There is a limit of 300 records per API call.
 
@@ -611,7 +618,7 @@ The over-the-counter (OTC) market is a market in which securities are traded thr
   ]
   ```
 
-#### Otc Volume <code>Free Subscription</code>
+#### Otc Volume <code>Free subscription</code>
 
 Over-the-counter (OTC) stocks typically represent ownership of equity in smaller companies that do not meet the criteria for regular listings. Some stocks may not be liquid at all. The API endpoint provides information about the monthly share volume traded for a certain security.
 
@@ -842,12 +849,12 @@ Stock options give the right to buy or sell shares of a specific stock at a pred
 
 - ###### Endpoint
 
-  `https://financialdata.net/api/v1/option-prices?identifier=MSFT250417C00400000`
+  `https://financialdata.net/api/v1/option-prices?identifier=MSFT260123C00455000`
 - ###### Parameters
 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
-  | identifier | string | The contract name for a stock option. | MSFT250417C00400000 |
+  | identifier | string | The contract name for a stock option. | MSFT260123C00455000 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
   | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
 - ###### Response
@@ -882,12 +889,12 @@ Option Greeks provide a way to measure the sensitivity of an option's price to n
 
 - ###### Endpoint
 
-  `https://financialdata.net/api/v1/option-greeks?identifier=MSFT250417C00400000`
+  `https://financialdata.net/api/v1/option-greeks?identifier=MSFT260123C00455000`
 - ###### Parameters
 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
-  | identifier | string | The contract name for a stock option. | MSFT250417C00400000 |
+  | identifier | string | The contract name for a stock option. | MSFT260123C00455000 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
   | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
 - ###### Response
@@ -2142,6 +2149,88 @@ Valuation ratios determine how appropriately shares in a company are valued and 
       "net_fixed_assets": 113304000000.0
     },
     ...
+  ]
+  ```
+
+#### Press Releases <code>Premium subscription</code>
+
+A company press release is an official statement to the media announcing company updates such as quarterly earnings, leadership changes, and major milestones. Our API provides markdown-formatted press releases for several thousand US and international companies. The timezone used for time values is EST (Eastern Standard Time). There is a limit of 1 record per API call.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/press-releases?identifier=MSFT`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
+  | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 1 |
+  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "trading_symbol": "MSFT",
+      "central_index_key": "0000789019",
+      "registrant_name": "MICROSOFT CORP",
+      "publication_time": "2026-01-28 16:04:38",
+      "release_headline": "Microsoft Cloud and AI Strength Drives Second Quarter Results",
+      "release_text": "Microsoft Cloud and AI Strength Drives Second Quarter Results\n\nREDMOND, Wash. - January 28, 2026 - Microsoft Corp. today announced the following results for the quarter ended December 31, 2025, as compared to the corresponding period of last fiscal year:\n\nRevenue was $81.3 billion and increased 17% (up 15% in constant currency)\n\nOperating income was $38.3 billion and increased 21% (up 19% in constant currency)\n\n..."  
+    }
+  ]
+  ```
+
+#### Sec Press Releases <code>Premium subscription</code>
+
+The U.S. Securities and Exchange Commission (SEC) is the federal agency that regulates the stock market and enforces the disclosure of material financial information to ensure transparency for investors. Our API provides both historical and the latest SEC press releases in markdown format. The timezone used for time values is EST (Eastern Standard Time). There is a limit of 1 record per API call.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/sec-press-releases?date=2026-01-27`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | date | string | The date in YYYY-MM-DD format. | 2026-01-27 |
+  | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 1 |
+  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "publication_time": "2026-01-27 11:38:34",
+      "release_headline": "SEC Charges ADM and Three Former Executives with Accounting and Disclosure Fraud",
+      "release_text": "ADM credited for cooperation and significant remediation\n\nFor Immediate Release\n\n2026-15\n\nWashington D.C., Jan. 27, 2026 -\n\nThe Securities and Exchange Commission today filed settled charges against Archer-Daniels-Midland Company (ADM) and its former executives, Vince Macciocchi and Ray Young, and a litigated action against its former executive Vikram Luthar, for materially inflating the performance of a key ADM business segment, Nutrition, which ADM touted to investors as an important driver of the companys overall growth.\n\n..."
+    }
+  ]
+  ```
+
+#### Fed Press Releases <code>Premium subscription</code>
+
+The Federal Reserve (Fed) is the U.S. central bank that influences the stock market by setting monetary policy and interest rates, which directly impact corporate profitability and investor sentiment. Our API provides both historical and the latest Fed press releases in markdown format. The timezone used for time values is EST (Eastern Standard Time). There is a limit of 1 record per API call.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/fed-press-releases?date=2025-10-29`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | date | string | The date in YYYY-MM-DD format. | 2025-10-29 |
+  | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 1 |
+  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "publication_time": "2025-10-29 13:00:00",
+      "release_type": "Monetary Policy",
+      "release_headline": "Federal Reserve issues FOMC statement",
+      "release_text": "Available indicators suggest that economic activity has been expanding at a moderate pace. Job gains have slowed this year, and the unemployment rate has edged up but remained low through August; more recent indicators are consistent with these developments. Inflation has moved up since earlier in the year and remains somewhat elevated.\n\nThe Committee seeks to achieve maximum employment and inflation at the rate of 2 percent over the longer run. Uncertainty about the economic outlook remains elevated. The Committee is attentive to the risks to both sides of its dual mandate and judges that downside risks to employment rose in recent months.\n\n..."
+    }
   ]
   ```
 

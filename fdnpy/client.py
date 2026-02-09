@@ -323,6 +323,25 @@ class FinancialDataClient:
         return self.get_data('valuation-ratios', params=params, limit=50)
 
     # ==========================================
+    # Market News
+    # ==========================================
+
+    def get_press_releases(self, identifier: str) -> List[Dict]:
+
+        params = {'identifier': identifier}
+        return self.get_data('press-releases', params=params, limit=1)
+
+    def get_sec_press_releases(self, date: str) -> List[Dict]:
+
+        params = {'date': date}
+        return self.get_data('sec-press-releases', params=params, limit=1)
+
+    def get_fed_press_releases(self, date: str) -> List[Dict]:
+
+        params = {'date': date}
+        return self.get_data('fed-press-releases', params=params, limit=1)
+
+    # ==========================================
     # Event Calendars
     # ==========================================
 

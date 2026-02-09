@@ -17,8 +17,8 @@ class TestFinancialDataClient(unittest.TestCase):
                    'index_prices': {'identifier': '^GSPC'},
                    'index_constituents': {'identifier': '^GSPC'},
                    'option_chain' : {'identifier': 'MSFT'},
-                   'option_prices': {'identifier': 'MSFT250417C00400000'},
-                   'option_greeks': {'identifier': 'MSFT250417C00400000'},
+                   'option_prices': {'identifier': 'MSFT260123C00455000'},
+                   'option_greeks': {'identifier': 'MSFT260123C00455000'},
                    'futures_prices': {'identifier': 'ZN'},
                    'crypto_information': {'identifier': 'BTC'},
                    'crypto_quotes': {'identifiers': ['BTCUSD', 'ETHUSD']},
@@ -45,6 +45,9 @@ class TestFinancialDataClient(unittest.TestCase):
                    'efficiency_ratios': {'identifier': 'MSFT', 'period': 'year'},
                    'profitability_ratios': {'identifier': 'MSFT', 'period': 'year'},
                    'valuation_ratios': {'identifier': 'MSFT', 'period': 'year'},
+                   'press_releases': {'identifier': 'MSFT'},
+                   'sec_press_releases': {'date': '2026-01-27'},
+                   'fed_press_releases': {'date': '2025-10-29'},
                    'earnings_calendar': {'date': '2025-10-31'},
                    'ipo_calendar': {'date': '2025-10-31'},
                    'splits_calendar': {'date': '2025-10-29'},
@@ -81,7 +84,7 @@ class TestFinancialDataClient(unittest.TestCase):
               if callable(attr):
                   method_names.append(name)
 
-        assert len(method_names) == 77
+        assert len(method_names) == 80
 
         return sorted(method_names)
 
