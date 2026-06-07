@@ -25,7 +25,7 @@ class FinancialDataClient:
                 return response.json()
 
             except Exception as e:
-                if response.status_code in [429, 500, 503]:
+                if response.status_code in [429, 500, 503, 504]:
                     print('%s\nRetrying after %s' % (e, timedelta(seconds=backoff)))
                     time.sleep(backoff)
                     backoff *= 2
@@ -326,6 +326,11 @@ class FinancialDataClient:
     # Market News
     # ==========================================
 
+    def get_latest_news(self, date: str) -> List[Dict]:
+
+        params = {'date': date}
+        return self.get_data('latest-news', params=params, limit=10)
+
     def get_press_releases(self, identifier: str) -> List[Dict]:
 
         params = {'identifier': identifier}
@@ -425,6 +430,11 @@ class FinancialDataClient:
 
         params = {'identifier': identifier}
         return self.get_data('etf-prices', params=params, limit=300)
+
+    def get_etf_minute_prices(self, identifier: str, date: str) -> List[Dict]:
+
+        params = {'identifier': identifier, 'date': date}
+        return self.get_data('etf-minute-prices', params=params, limit=300)
 
     def get_etf_holdings(self, identifier: str) -> List[Dict]:
 

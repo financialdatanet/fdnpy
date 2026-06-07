@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as file:
 
 setup(
     name='fdnpy',
-    version='0.3.0',
+    version='0.4.0',
     description='A Python SDK for FinancialData.Net API',
     long_description=long_description,
     long_description_content_type='text/markdown',

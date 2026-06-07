@@ -111,6 +111,7 @@ Handles pagination and aggregates all available records.
 - get_valuation_ratios(identifier, period=None)
 
 ### Market News
+- get_latest_news(date)
 - get_press_releases(identifier)
 - get_sec_press_releases(date)
 - get_fed_press_releases(date)
@@ -136,6 +137,7 @@ Handles pagination and aggregates all available records.
 ### ETF Data
 - get_etf_quotes(identifiers)
 - get_etf_prices(identifier)
+- get_etf_minute_prices(identifier, date)
 - get_etf_holdings(identifier)
 
 ### Mutual Funds
@@ -175,7 +177,7 @@ When making requests, ensure that each URL ends with ?key=API\_KEY. If the URL a
 
 Some API endpoints may specify a limit on records to be retrieved per API call. To retrieve all the data available from these endpoints, use the offset parameter. For example, if the record limit is 500, then with the first API call, you will retrieve records 0–499, with the second API call records 500–999, etc.
 
-For fast and easy integration into your applications, we recommend using our official [Python SDK](https://github.com/financialdatanet/fdnpy) (available on GitHub). It provides a straightforward way to access all API functionalities.
+For fast and easy integration into your applications, we recommend using our official [Python SDK](https://github.com/financialdatanet/fdnpy) (available on GitHub). It provides a straightforward way to access all API functionalities. If you are building AI agents, we also provide an official [MCP server](https://financialdata.net/mcp-server). For spreadsheet-based workflows, you can find setup and usage instructions on the [Excel add-in](https://financialdata.net/excel-addin) page.
 
 #### Stock Symbols <code>Free subscription</code>
 
@@ -189,7 +191,7 @@ Get a list of stock symbols for publicly traded US and international companies. 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -222,7 +224,7 @@ Retrieve a list of stock symbols for publicly traded international companies. Da
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -255,7 +257,7 @@ An exchange-traded fund (ETF) is a type of investment fund that trades on the st
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -287,7 +289,7 @@ The commodity market covers the trading of raw materials like oil, gold, coffee,
 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -320,7 +322,7 @@ The over-the-counter (OTC) market is where securities are traded through a netwo
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -353,7 +355,7 @@ Get real-time stock quotes, including the last price, change, and percentage cha
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifiers | string | The trading symbols for the securities. | MSFT,AAPL |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -390,7 +392,7 @@ The API endpoint provides more than 10 years of daily historical stock prices an
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | MSFT |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -430,7 +432,7 @@ Get more than 10 years of daily historical stock prices and volumes. Data is ava
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | SHEL.L |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -471,7 +473,7 @@ The API endpoint provides more than 7 years of one-minute historical prices and 
   | identifier | string | The trading symbol for a security. | MSFT |
   | date | string | The date in YYYY-MM-DD format. | 2020-01-15 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -511,7 +513,7 @@ Get one-minute stock prices and trading volumes for the current week. Data is av
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | MSFT |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -551,7 +553,7 @@ The commodity market comprises the trading of raw materials such as oil, gold, c
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a commodity. | ZC |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -591,7 +593,7 @@ The over-the-counter (OTC) market is a market in which securities are traded thr
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | AABB |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -630,7 +632,7 @@ Over-the-counter (OTC) stocks typically represent ownership of equity in smaller
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | AABB |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -666,7 +668,7 @@ A market index measures the value of a portfolio of holdings with certain market
 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -699,7 +701,7 @@ Get real-time market index quotes, including the last price, change, and percent
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifiers | string | The trading symbols for the indexes. | ^GSPC,^DJI |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -736,7 +738,7 @@ Our API allows you to retrieve more than 10 years of daily historical market ind
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for an index. | ^GSPC |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -776,7 +778,7 @@ Index constituents are the individual components that comprise a market index. T
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for an index. | ^GSPC |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -816,7 +818,7 @@ Options chains display a list of all available option contracts for a specific u
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -856,7 +858,7 @@ Stock options give the right to buy or sell shares of a specific stock at a pred
   | --- | --- | --- | --- |
   | identifier | string | The contract name for a stock option. | MSFT260123C00455000 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -896,7 +898,7 @@ Option Greeks provide a way to measure the sensitivity of an option's price to n
   | --- | --- | --- | --- |
   | identifier | string | The contract name for a stock option. | MSFT260123C00455000 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -935,7 +937,7 @@ Futures contracts are contracts to purchase or sell a particular underlying asse
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -972,7 +974,7 @@ Get over 10 years of historical end-of-day futures prices and volumes. Data is a
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a futures contract. | ZN |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1011,7 +1013,7 @@ Cryptocurrency is a digital currency that is secured through cryptography and ex
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1047,7 +1049,7 @@ Retrieve basic information about the cryptocurrency, such as its market cap, tot
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The symbol (code) for a cryptocurrency. | BTC |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1085,7 +1087,7 @@ Get real-time cryptocurrency pair quotes, including the last price, change, and 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifiers | string | The trading symbols for the cryptocurrency pairs. | BTCUSD,ETHUSD |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1124,7 +1126,7 @@ This API endpoint allows you to retrieve daily historical cryptocurrency prices 
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for the cryptocurrency pair. | BTCUSD |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1165,7 +1167,7 @@ The API endpoint allows you to retrieve one-minute historical cryptocurrency pri
   | identifier | string | The trading symbol for the cryptocurrency pair. | BTCUSD |
   | date | string | The date in YYYY-MM-DD format. | 2025-01-15 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1203,7 +1205,7 @@ Forex (foreign exchange) is a global decentralized marketplace for trading natio
 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1239,7 +1241,7 @@ Get real-time forex quotes, including the last price, change, and percentage cha
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifiers | string | The trading symbols for the currency pairs. | EURUSD,GBPUSD |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1278,7 +1280,7 @@ This API endpoint allows you to retrieve daily historical forex prices and tradi
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for the currency pair. | EURUSD |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1319,7 +1321,7 @@ The API endpoint allows you to retrieve one-minute historical forex prices and v
   | identifier | string | The trading symbol for the currency pair. | EURUSD |
   | date | string | The date in YYYY-MM-DD format. | 2025-01-15 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1358,7 +1360,7 @@ This API endpoint provides basic information about the company, such as its LEI 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1410,7 +1412,7 @@ Our API provides basic information about the international company, such as its 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | SHEL.L |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1442,7 +1444,7 @@ The API endpoint returns key financial metrics such as price-to-earnings ratio, 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1489,7 +1491,7 @@ Market capitalization, or market cap, is the total value of a company's outstand
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1534,7 +1536,7 @@ This API endpoint returns the total number of company employees for a particular
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1570,7 +1572,7 @@ Executive compensation includes both financial and non-financial benefits provid
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 100 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1619,7 +1621,7 @@ A security is a tradable financial instrument. The term may refer to a variety o
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | One of the following values: a security's trading symbol, the CUSIP (Committee on Uniform Securities Identification Procedures) number, or the ISIN (International Securities Identification Number). | AAPL, 594918104, US5949181045 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1649,7 +1651,7 @@ An income statement, also called a profit and loss statement, is a financial sta
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1694,7 +1696,7 @@ A balance sheet, often known as a statement of financial position, summarizes an
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1750,7 +1752,7 @@ A cash flow statement is a financial statement that indicates how changes in bal
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1811,7 +1813,7 @@ Get all the individual financial items that comprise an income statement. Data i
   | identifier | string | The trading symbol for a security. | SHEL.L |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1855,7 +1857,7 @@ Get all individual financial items that make up a balance sheet statement. Data 
   | identifier | string | The trading symbol for a security. | SHEL.L |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1905,7 +1907,7 @@ Access all the individual financial items that compose a cash flow statement. Da
   | identifier | string | The trading symbol for a security. | SHEL.L |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -1954,7 +1956,7 @@ Liquidity ratios evaluate how quickly assets can be turned into cash to meet the
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2002,7 +2004,7 @@ Solvency ratios evaluate a company's ability to meet its long-term debts and obl
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2042,7 +2044,7 @@ Efficiency ratios, also known as activity financial ratios, are used to evaluate
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2088,7 +2090,7 @@ Profitability ratios evaluate a company's ability to generate profits from sales
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2130,7 +2132,7 @@ Valuation ratios determine how appropriately shares in a company are valued and 
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | period | string | (Optional) The accounting period for which the entity's financial statements are prepared. By default, statements are returned for all accounting periods. | year, quarter |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2152,6 +2154,34 @@ Valuation ratios determine how appropriately shares in a company are valued and 
   ]
   ```
 
+#### Latest News <code>Premium subscription</code>
+
+Get the latest financial and stock market news articles. Data includes the article headline, text, publication time, and any associated trading symbols. The timezone used for time values is EST (Eastern Standard Time). There is a limit of 10 records per API call.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/latest-news?date=2026-06-05`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | date | string | The date in YYYY-MM-DD format. | 2026-06-05 |
+  | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 10 |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "trading_symbols": "CRWV,GOOG,GOOGL,MS,NBIS,NVDA",
+      "publication_time": "2026-06-05 23:59:55",
+      "article_headline": "SpaceX Signs $920 Million Monthly Compute-Leasing Deal with Alphabet Ahead of IPO",
+      "article_text": "SpaceX has entered into a $920 million monthly compute-leasing agreement with Alphabet, granting access to approximately 110,000 Nvidia GPUs across its data centers through mid-2029. The announcement comes days before the company's landmark public offering.\n\n..."
+    },
+    ...
+  ]
+  ```
+
 #### Press Releases <code>Premium subscription</code>
 
 A company press release is an official statement to the media announcing company updates such as quarterly earnings, leadership changes, and major milestones. Our API provides markdown-formatted press releases for several thousand US and international companies. The timezone used for time values is EST (Eastern Standard Time). There is a limit of 1 record per API call.
@@ -2165,7 +2195,7 @@ A company press release is an official statement to the media announcing company
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 1 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2194,7 +2224,7 @@ The U.S. Securities and Exchange Commission (SEC) is the federal agency that reg
   | --- | --- | --- | --- |
   | date | string | The date in YYYY-MM-DD format. | 2026-01-27 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 1 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2220,7 +2250,7 @@ The Federal Reserve (Fed) is the U.S. central bank that influences the stock mar
   | --- | --- | --- | --- |
   | date | string | The date in YYYY-MM-DD format. | 2025-10-29 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 1 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2247,7 +2277,7 @@ An earnings release is an official announcement of a company's financial results
   | --- | --- | --- | --- |
   | date | string | The date in YYYY-MM-DD format. | 2025-10-31 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2284,7 +2314,7 @@ An initial public offering (IPO) marks the first time a private company offers i
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | date | string | The date in YYYY-MM-DD format. | 2025-10-31 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2322,7 +2352,7 @@ A stock split occurs when a company increases its outstanding shares to enhance 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | date | string | The date in YYYY-MM-DD format. | 2025-10-29 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2354,7 +2384,7 @@ A dividend is a portion of a company's profits distributed to shareholders, typi
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | date | string | The date in YYYY-MM-DD format. | 2025-10-29 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2394,7 +2424,7 @@ Get a schedule of upcoming economic events and major indicator announcements, in
   | --- | --- | --- | --- |
   | date | string | The date in YYYY-MM-DD format. | 2025-10-19 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2432,7 +2462,7 @@ Federal securities laws require insiders, including officials, directors, and th
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2475,7 +2505,7 @@ When an executive officer, director, or affiliate of a company places an order t
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 100 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2515,7 +2545,7 @@ Members of the United States Senate are required to disclose any purchase, sale,
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | MSFT |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 100 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2565,7 +2595,7 @@ Members of the US House of Representatives are obliged to disclose any transacti
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | MSFT |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 100 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2614,7 +2644,7 @@ An institutional investor is a company or organization that invests money on beh
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2648,7 +2678,7 @@ Institutional holdings are the securities in an investment portfolio owned by in
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol or CUSIP number of a security, or the institutional investor's central index key. The latter is assigned to the investor by the US Securities and Exchange Commission. | MSFT, 594918104, 0001067983 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 100 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2686,7 +2716,7 @@ The API endpoint provides statistics about an institutional investor's portfolio
   | --- | --- | --- | --- |
   | identifier | string | The institutional investor's central index key. The latter is assigned to the investor by the US Securities and Exchange Commission. | 0000102909 |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2727,7 +2757,7 @@ Get real-time exchange-traded fund (ETF) quotes, including the last price, chang
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifiers | string | The trading symbols for the ETFs. | SPY,QQQ |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2764,7 +2794,7 @@ An exchange-traded fund (ETF) is a type of investment fund that trades on the st
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for an ETF. | SPY |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2791,6 +2821,47 @@ An exchange-traded fund (ETF) is a type of investment fund that trades on the st
   ]
   ```
 
+#### Etf Minute Prices <code>Premium subscription</code>
+
+The API endpoint allows you to retrieve one-minute historical exchange-traded fund (ETF) prices and volumes. The data covers several thousand major ETFs. The timezone used for time values is UTC (Coordinated Universal Time). There is a limit of 300 records per API call.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/etf-minute-prices?identifier=SPY&date=2026-05-26`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | identifier | string | The trading symbol for an ETF. | SPY |
+  | date | string | The date in YYYY-MM-DD format. | 2026-05-26 |
+  | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "trading_symbol": "SPY",
+      "time": "2026-05-26 19:59:00",
+      "open": 750.16,
+      "high": 750.46,
+      "low": 750.04,
+      "close": 750.46,
+      "volume": 82505.0
+    },
+    {
+      "trading_symbol": "SPY",
+      "time": "2026-05-26 19:58:00",
+      "open": 750.5,
+      "high": 750.5,
+      "low": 750.12,
+      "close": 750.16,
+      "volume": 32228.0
+    },
+    ...
+  ]
+  ```
+
 #### Etf Holdings <code>Premium subscription</code>
 
 An exchange-traded fund (ETF) is an investment fund holding a collection of assets that trades on the stock exchange just like an individual share. Our API provides information on the securities held by exchange-traded funds. There is a limit of 50 records per API call.
@@ -2804,7 +2875,7 @@ An exchange-traded fund (ETF) is an investment fund holding a collection of asse
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol of an exchange-traded fund. | SPY |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2854,7 +2925,7 @@ A mutual fund is an investment fund that pools money from multiple investors to 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2888,7 +2959,7 @@ A mutual fund is an investment fund that pools money from numerous investors to 
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol of a mutual fund. | VTSAX |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2939,7 +3010,7 @@ The API endpoint provides statistics about mutual funds. It gives essential info
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol of a mutual fund. | VTSAX |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 50 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2987,7 +3058,7 @@ ESG risk score measures a company's exposure to environmental, social, and corpo
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -2996,23 +3067,23 @@ ESG risk score measures a company's exposure to environmental, social, and corpo
       "trading_symbol": "MSFT",
       "central_index_key": "0000789019",
       "registrant_name": "MICROSOFT CORP",
-      "industry": "Software & Services",
-      "date": "2025-02-01",
-      "environmental_risk_score": 1.6,
-      "social_risk_score": 7.6,
-      "governance_risk_score": 4.2,
-      "esg_risk_score": 13.5
+      "industry": "Software & IT Services",
+      "date": "2025-12-31",
+      "environmental_risk_score": 9.0,
+      "social_risk_score": 10.0,
+      "governance_risk_score": 10.5,
+      "esg_risk_score": 9.8
     },
     {
       "trading_symbol": "MSFT",
       "central_index_key": "0000789019",
       "registrant_name": "MICROSOFT CORP",
-      "industry": "Software & Services",
-      "date": "2025-01-01",
-      "environmental_risk_score": 1.6,
-      "social_risk_score": 7.6,
-      "governance_risk_score": 5.0,
-      "esg_risk_score": 14.2
+      "industry": "Software & IT Services",
+      "date": "2024-12-31",
+      "environmental_risk_score": 8.5,
+      "social_risk_score": 9.8,
+      "governance_risk_score": 10.5,
+      "esg_risk_score": 9.6
     },
     ...
   ]
@@ -3030,7 +3101,7 @@ ESG corporate rating is a metric used for evaluating a company's sustainability 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -3039,19 +3110,19 @@ ESG corporate rating is a metric used for evaluating a company's sustainability 
       "trading_symbol": "MSFT",
       "central_index_key": "0000789019",
       "registrant_name": "MICROSOFT CORP",
-      "industry": "Software & Services",
-      "date": "2025-02-01",
+      "industry": "Software & IT Services",
+      "date": "2025-12-31",
       "esg_corporate_rating": "A",
-      "esg_industry_rank": "10 out of 143"
+      "esg_industry_rank": "23 out of 461"
     },
     {
       "trading_symbol": "MSFT",
       "central_index_key": "0000789019",
       "registrant_name": "MICROSOFT CORP",
-      "industry": "Software & Services",
-      "date": "2025-01-01",
+      "industry": "Software & IT Services",
+      "date": "2024-12-31",
       "esg_corporate_rating": "A",
-      "esg_industry_rank": "15 out of 143"
+      "esg_industry_rank": "17 out of 461"
     },
     ...
   ]
@@ -3063,32 +3134,32 @@ Industry ESG score evaluates how well an industry manages risks related to ESG (
 
 - ###### Endpoint
 
-  `https://financialdata.net/api/v1/industry-esg-scores?date=2025-01-01`
+  `https://financialdata.net/api/v1/industry-esg-scores?date=2025-12-31`
 - ###### Parameters
 
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
-  | date | string | The date in YYYY-MM-DD format. | 2025-01-01 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | date | string | The date in YYYY-MM-DD format. | 2025-12-31 |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
   [
     {
-      "industry": "Aerospace & Defense",
-      "date": "2025-01-01",
-      "environmental_risk_score": 9.0,
-      "social_risk_score": 14.8,
-      "governance_risk_score": 6.2,
-      "esg_risk_score": 30.1
+      "industry": "Advertising & Marketing",
+      "date": "2025-12-31",
+      "environmental_risk_score": 18.5,
+      "social_risk_score": 30.5,
+      "governance_risk_score": 33.1,
+      "esg_risk_score": 27.3
     },
     {
-      "industry": "Auto Components",
-      "date": "2025-01-01",
-      "environmental_risk_score": 4.0,
-      "social_risk_score": 5.8,
-      "governance_risk_score": 5.0,
-      "esg_risk_score": 14.7
+      "industry": "Aerospace & Defense",
+      "date": "2025-12-31",
+      "environmental_risk_score": 25.4,
+      "social_risk_score": 32.4,
+      "governance_risk_score": 27.8,
+      "esg_risk_score": 28.5
     },
     ...
   ]
@@ -3106,7 +3177,7 @@ Investment advisers are financial specialists who give investment advice or cond
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 1000 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -3136,7 +3207,7 @@ Our API provides valuable information about registered investment advisers, incl
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The legal name of an investment adviser. | BLACKROCK INVESTMENT MANAGEMENT, LLC |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -3172,7 +3243,7 @@ An earnings release is an official public announcement revealing a company's pro
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -3217,7 +3288,7 @@ An initial public offering (IPO) is when shares of a private firm are made avail
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | ABNB |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -3246,7 +3317,7 @@ A stock split occurs when a company increases the number of outstanding shares t
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security, or the central index key (CIK). The latter is assigned to the entity by the United States Securities and Exchange Commission. | MSFT, 0000789019 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -3281,7 +3352,7 @@ A dividend is the distribution of a company's earnings to its shareholders. Divi
   | Name | Type | Description | Example |
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | MSFT |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json
@@ -3323,7 +3394,7 @@ Short interest represents the number of shares of a company that are currently s
   | --- | --- | --- | --- |
   | identifier | string | The trading symbol for a security. | MSFT |
   | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 100 |
-  | format | string | (Optional) The format of the returned data, either JSON (JavaScript Object Notation) or CSV (Comma Separated Values). Defaults to JSON. | json, csv |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
 - ###### Response
 
   ```json

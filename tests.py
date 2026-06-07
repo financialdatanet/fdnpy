@@ -45,6 +45,7 @@ class TestFinancialDataClient(unittest.TestCase):
                    'efficiency_ratios': {'identifier': 'MSFT', 'period': 'year'},
                    'profitability_ratios': {'identifier': 'MSFT', 'period': 'year'},
                    'valuation_ratios': {'identifier': 'MSFT', 'period': 'year'},
+                   'latest_news': {'date': '2026-06-05'},
                    'press_releases': {'identifier': 'MSFT'},
                    'sec_press_releases': {'date': '2026-01-27'},
                    'fed_press_releases': {'date': '2025-10-29'},
@@ -61,12 +62,13 @@ class TestFinancialDataClient(unittest.TestCase):
                    'institutional_portfolio_statistics': {'identifier': '0000102909'},
                    'etf_quotes': {'identifiers': ['SPY', 'QQQ']},
                    'etf_prices': {'identifier': 'SPY'},
+                   'etf_minute_prices': {'identifier': 'SPY', 'date': '2026-05-26'},
                    'etf_holdings': {'identifier': 'SPY'},
                    'mutual_fund_holdings': {'identifier': 'VTSAX'},
                    'mutual_fund_statistics': {'identifier': 'VTSAX'},
                    'esg_scores': {'identifier': 'MSFT'},
                    'esg_ratings': {'identifier': 'MSFT'},
-                   'industry_esg_scores': {'date': '2025-01-01'},
+                   'industry_esg_scores': {'date': '2025-12-31'},
                    'investment_adviser_information': {'identifier': 'BLACKROCK INVESTMENT MANAGEMENT, LLC'},
                    'earnings_releases': {'identifier': 'MSFT'},
                    'initial_public_offerings': {'identifier': 'ABNB'},
@@ -84,7 +86,7 @@ class TestFinancialDataClient(unittest.TestCase):
               if callable(attr):
                   method_names.append(name)
 
-        assert len(method_names) == 80
+        assert len(method_names) == 82
 
         return sorted(method_names)
 
