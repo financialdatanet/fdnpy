@@ -90,6 +90,7 @@ Handles pagination and aggregates all available records.
 - get_company_information(identifier)
 - get_international_company_information(identifier)
 - get_key_metrics(identifier)
+- get_international_key_metrics(identifier)
 - get_market_cap(identifier)
 - get_employee_count(identifier)
 - get_executive_compensation(identifier)
@@ -122,6 +123,10 @@ Handles pagination and aggregates all available records.
 - get_splits_calendar(date)
 - get_dividends_calendar(date)
 - get_economic_calendar(date)
+
+## Economic Data
+- get_economic_indicators()
+- get_economic_indicator_values(identifier)
 
 ### Insider Trading
 - get_insider_transactions(identifier)
@@ -156,6 +161,7 @@ Handles pagination and aggregates all available records.
 - get_investment_adviser_information(identifier)
 
 ### Miscellaneous Data
+- get_analyst_consensus(identifier)
 - get_earnings_releases(identifier)
 - get_initial_public_offerings(identifier)
 - get_stock_splits(identifier)
@@ -1479,6 +1485,51 @@ The API endpoint returns key financial metrics such as price-to-earnings ratio, 
   ]
   ```
 
+#### International Key Metrics <code>Premium subscription</code>
+
+The API endpoint returns key financial metrics, including price-to-earnings ratio, price-to-book ratio, and free cash flow. Data is available for several thousand international companies whose shares are traded on the following stock exchanges: Toronto, London, Frankfurt, Euronext Paris, Euronext Amsterdam, Tokyo, Hong Kong, Singapore, Indonesia, Malaysia, Korea, Brazil, Mexico, India, Bombay.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/international-key-metrics?identifier=SHEL.L`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | identifier | string | The trading symbol for a security. | SHEL.L |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "trading_symbol": "SHEL.L",
+      "registrant_name": "Shell plc",
+      "fiscal_period": "FY",
+      "period_end_date": "2025-12-31",
+      "currency_code": "USD",
+      "earnings_per_share": 3.03,
+      "price_to_earnings_ratio": 904.290429042904,
+      "earnings_growth_rate": 18.8235294117647,
+      "price_earnings_to_growth_ratio": 48.0404290429043,
+      "book_value_per_share": 29.7614924967746,
+      "price_to_book_ratio": 92.0652752981708,
+      "ebitda": 44745000000.0,
+      "enterprise_value": 16157872000000.0,
+      "dividend_yield": -0.000524881306939585,
+      "dividend_payout_ratio": -0.474967763637383,
+      "debt_to_equity_ratio": 0.26784485526859,
+      "capital_expenditures": 22025000000.0,
+      "free_cash_flow": 20838000000.0,
+      "return_on_equity": 0.102281067938896,
+      "one_year_beta": 0.102195990430389,
+      "three_year_beta": 0.144974325024332,
+      "five_year_beta": 0.176490420763994
+    },
+    ...
+  ]
+  ```
+
 #### Market Cap <code>Standard subscription</code>
 
 Market capitalization, or market cap, is the total value of a company's outstanding common shares held by investors. Market cap is calculated by multiplying the market price per common share by the total number of common shares outstanding. Our API provides historical market cap data for a few thousand companies.
@@ -2449,6 +2500,78 @@ Get a schedule of upcoming economic events and major indicator announcements, in
   ]
   ```
 
+#### Economic Indicators <code>Premium subscription</code>
+
+Get a list of economic indicators covering categories such as inflation, interest rates, employment, and national output. The list contains thousands of indicators, along with additional metadata. There is a limit of 300 records per API call.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/economic-indicators`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 300 |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "indicator_id": "HQMCB1YR",
+      "indicator_name": "1-Year High Quality Market (HQM) Corporate Bond Spot Rate",
+      "category": "Corporate Bonds",
+      "frequency": "Monthly",
+      "units": "Percent"
+    },
+    {
+      "indicator_id": "WTB1YR",
+      "indicator_name": "1-Year Treasury Bill Secondary Market Rate, Discount Basis",
+      "category": "Treasury Bills",
+      "frequency": "Weekly, Ending Friday",
+      "units": "Percent"
+    },
+    ...
+  ]
+  ```
+
+#### Economic Indicator Values <code>Premium subscription</code>
+
+This API endpoint returns historical values for a specified economic indicator. The data includes the observation date and recorded numerical value. There is a limit of 500 records per API call.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/economic-indicator-values?identifier=WTB1YR`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | identifier | string | The ID for an economic indicator. | WTB1YR |
+  | offset | integer | (Optional) The initial position of the record subset, which indicates how many records to skip. Defaults to 0. | 500 |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "indicator_id": "WTB1YR",
+      "date": "2026-07-17",
+      "value": 3.85
+    },
+    {
+      "indicator_id": "WTB1YR",
+      "date": "2026-07-10",
+      "value": 3.86
+    },
+    {
+      "indicator_id": "WTB1YR",
+      "date": "2026-07-03",
+      "value": 3.81
+    },
+    ...
+  ]
+  ```
+
 #### Insider Transactions <code>Premium subscription</code>
 
 Federal securities laws require insiders, including officials, directors, and those holding more than 10% of a company's securities, to report their purchases, sales, and holdings. The API endpoint gives comprehensive information about each of the transactions. The data is available for a few thousand US companies. There is a limit of 50 records per API call.
@@ -3227,6 +3350,37 @@ Our API provides valuable information about registered investment advisers, incl
       "number_of_employees": 1483,
       "assets_under_management": 458191510749.0,
       "number_of_accounts": 46332
+    }
+  ]
+  ```
+
+#### Analyst Consensus <code>Premium subscription</code>
+
+Analyst consensus represents the collective price targets and ratings from professional equity research analysts covering a publicly traded company. Aggregating the estimates gives a view of overall sentiment rather than relying on a single opinion. The API endpoint returns consensus metrics, including 12-month forward price targets as well as buy, hold, and sell recommendation counts.
+
+- ###### Endpoint
+
+  `https://financialdata.net/api/v1/analyst-consensus?identifier=MSFT`
+- ###### Parameters
+
+  | Name | Type | Description | Example |
+  | --- | --- | --- | --- |
+  | identifier | string | The trading symbol for a security. | MSFT |
+  | format | string | (Optional) The format of the returned data, either JSON or CSV. Defaults to JSON. | json, csv |
+- ###### Response
+
+  ```json
+  [
+    {
+      "trading_symbol": "MSFT",
+      "central_index_key": "0000789019",
+      "registrant_name": "MICROSOFT CORP",
+      "average_price_target": 555.73,
+      "highest_price_target": 680.0,
+      "lowest_price_target": 400.0,
+      "buy_recommendations": 36,
+      "sell_recommendations": 0,
+      "hold_recommendations": 1
     }
   ]
   ```

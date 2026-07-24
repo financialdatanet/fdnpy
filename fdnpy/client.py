@@ -239,6 +239,11 @@ class FinancialDataClient:
         params = {'identifier': identifier}
         return self.get_data('key-metrics', params=params)
 
+    def get_international_key_metrics(self, identifier: str) -> List[Dict]:
+
+        params = {'identifier': identifier}
+        return self.get_data('international-key-metrics', params=params)
+
     def get_market_cap(self, identifier: str) -> List[Dict]:
 
         params = {'identifier': identifier}
@@ -376,6 +381,19 @@ class FinancialDataClient:
         return self.get_data('economic-calendar', params=params, limit=300)
 
     # ==========================================
+    # Economic Data
+    # ==========================================
+
+    def get_economic_indicators(self) -> List[Dict]:
+
+        return self.get_data('economic-indicators', limit=300)
+    
+    def get_economic_indicator_values(self, identifier: str) -> List[Dict]:
+
+        params = {'identifier': identifier}
+        return self.get_data('economic-indicator-values', params=params, limit=500)
+
+    # ==========================================
     # Insider Trading
     # ==========================================
 
@@ -494,6 +512,11 @@ class FinancialDataClient:
     # ==========================================
     # Miscellaneous Data
     # ==========================================
+
+    def get_analyst_consensus(self, identifier: str) -> List[Dict]:
+
+        params = {'identifier': identifier}
+        return self.get_data('analyst-consensus', params=params)
 
     def get_earnings_releases(self, identifier: str) -> List[Dict]:
 

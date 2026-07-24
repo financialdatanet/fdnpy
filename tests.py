@@ -30,6 +30,7 @@ class TestFinancialDataClient(unittest.TestCase):
                    'company_information': {'identifier': 'MSFT'},
                    'international_company_information': {'identifier': 'SHEL.L'},
                    'key_metrics': {'identifier': 'MSFT'},
+                   'international_key_metrics': {'identifier': 'SHEL.L'},
                    'market_cap': {'identifier': 'MSFT'},
                    'employee_count': {'identifier': 'MSFT'},
                    'executive_compensation': {'identifier': 'MSFT'},
@@ -54,6 +55,7 @@ class TestFinancialDataClient(unittest.TestCase):
                    'splits_calendar': {'date': '2025-10-29'},
                    'dividends_calendar': {'date': '2025-10-29'},
                    'economic_calendar': {'date': '2025-10-19'},
+                   'economic_indicator_values': {'identifier': 'WTB1YR'},
                    'insider_transactions': {'identifier': 'MSFT'},
                    'proposed_sales': {'identifier': 'MSFT'},
                    'senate_trading': {'identifier': 'MSFT'},
@@ -70,6 +72,7 @@ class TestFinancialDataClient(unittest.TestCase):
                    'esg_ratings': {'identifier': 'MSFT'},
                    'industry_esg_scores': {'date': '2025-12-31'},
                    'investment_adviser_information': {'identifier': 'BLACKROCK INVESTMENT MANAGEMENT, LLC'},
+                   'analyst_consensus': {'identifier': 'MSFT'},
                    'earnings_releases': {'identifier': 'MSFT'},
                    'initial_public_offerings': {'identifier': 'ABNB'},
                    'stock_splits': {'identifier': 'MSFT'},
@@ -86,7 +89,7 @@ class TestFinancialDataClient(unittest.TestCase):
               if callable(attr):
                   method_names.append(name)
 
-        assert len(method_names) == 82
+        assert len(method_names) == 86
 
         return sorted(method_names)
 
