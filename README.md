@@ -124,7 +124,7 @@ Handles pagination and aggregates all available records.
 - get_dividends_calendar(date)
 - get_economic_calendar(date)
 
-## Economic Data
+### Economic Data
 - get_economic_indicators()
 - get_economic_indicator_values(identifier)
 
