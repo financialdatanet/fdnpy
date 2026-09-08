@@ -12,6 +12,20 @@ class FinancialDataClient:
         self.api_key = api_key
         self.session = requests.Session()
 
+    def detailed_error(self, e: Exception, response: requests.Response) -> Exception:
+
+        try:
+            data = response.json()
+            message = data['message']
+        except:
+            message = None
+
+        if message is not None:
+            message = '%s\nReason: %s' % (e, message)
+            e.args = (message,)
+
+        return e
+
     def make_request(self, endpoint: str, params: Dict[str, Any]) -> List[Dict]:
   
         params['key'] = self.api_key
@@ -22,7 +36,8 @@ class FinancialDataClient:
             try:
                 response = self.session.get(url, params=params)
                 response.raise_for_status()
-                return response.json()
+                record_limit = response.headers.get('X-Record-Limit', None)
+                return record_limit, response.json()
 
             except Exception as e:
                 if response.status_code in [429, 500, 503, 504]:
@@ -30,7 +45,7 @@ class FinancialDataClient:
                     time.sleep(backoff)
                     backoff *= 2
                 else:
-                    raise e
+                    raise self.detailed_error(e, response)
 
     def get_data(self, endpoint: str, params: Dict[str, Any] = None, limit: int = sys.maxsize) -> List[Dict]:
 
@@ -39,10 +54,11 @@ class FinancialDataClient:
 
         data = []
         while 1:
-            partial_data = self.make_request(endpoint, params)
+            record_limit, partial_data = self.make_request(endpoint, params)
+            limit = limit if record_limit is None else int(record_limit)
             data.extend(partial_data)
-            count = len(partial_data)
 
+            count = len(partial_data)
             if count < limit:
                 break
             else:
@@ -542,3 +558,24 @@ class FinancialDataClient:
 
         params = {'identifier': identifier}
         return self.get_data('short-interest', params=params, limit=100)
+
+    # ==========================================
+    # Universal Query
+    # ==========================================
+
+    def universal_query(self, dataset: str, fields: List[str], filters: Dict[str, Dict[str, Any]] = None) -> List[Dict]:
+
+        fields, filters = ','.join(fields), filters or {}
+        params = {'dataset': dataset, 'fields': fields}
+
+        for field, field_filters in filters.items():
+            for operator, value in field_filters.items():
+                if isinstance(value, list):
+                    value = ','.join(str(item) for item in value)
+                else:
+                    value = str(value)
+
+                key = '%s[%s]' % (field, operator)
+                params[key] = value
+
+        return self.get_data('universal-query', params=params)

@@ -17,8 +17,8 @@ class TestFinancialDataClient(unittest.TestCase):
                    'index_prices': {'identifier': '^GSPC'},
                    'index_constituents': {'identifier': '^GSPC'},
                    'option_chain' : {'identifier': 'MSFT'},
-                   'option_prices': {'identifier': 'MSFT260123C00455000'},
-                   'option_greeks': {'identifier': 'MSFT260123C00455000'},
+                   'option_prices': {'identifier': 'MSFT260828C00505000'},
+                   'option_greeks': {'identifier': 'MSFT260828C00505000'},
                    'futures_prices': {'identifier': 'ZN'},
                    'crypto_information': {'identifier': 'BTC'},
                    'crypto_quotes': {'identifiers': ['BTCUSD', 'ETHUSD']},
@@ -77,19 +77,22 @@ class TestFinancialDataClient(unittest.TestCase):
                    'initial_public_offerings': {'identifier': 'ABNB'},
                    'stock_splits': {'identifier': 'MSFT'},
                    'dividends': {'identifier': 'MSFT'},
-                   'short_interest': {'identifier': 'MSFT'}}
+                   'short_interest': {'identifier': 'MSFT'},
+                   'universal_query': {'dataset': 'key_metrics', 
+                                       'fields': ['trading_symbol', 'period_end_date', 'price_to_earnings_ratio'],
+                                       'filters': {'trading_symbol': {'in': ['AAPL', 'MSFT']}, 'ebitda': {'gt': 1000000000}}}}
     
     @classmethod
     def get_method_names(cls) -> List[str]:
        
         method_names = []
         for name in dir(FinancialDataClient):
-           if not name.startswith('__') and name not in ['make_request', 'get_data']:
+           if not name.startswith('__') and name not in ['detailed_error', 'make_request', 'get_data']:
               attr = getattr(FinancialDataClient, name)
               if callable(attr):
                   method_names.append(name)
 
-        assert len(method_names) == 86
+        assert len(method_names) == 87
 
         return sorted(method_names)
 
@@ -98,7 +101,7 @@ class TestFinancialDataClient(unittest.TestCase):
         
         def test(self):
             
-            key = method_name.split('_', 1)[1]
+            key = method_name[4:] if method_name.startswith('get_') else method_name
             kwargs = self.test_kwargs.get(key, {})          
             print('Testing %s with kwargs: %s' % (method_name, kwargs))
             

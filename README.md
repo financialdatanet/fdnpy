@@ -21,7 +21,18 @@ print(prices[0], end='\n\n')
 
 # Get Microsoft's balance sheet  
 balance_sheet = client.get_balance_sheet_statements(identifier='MSFT', period='year')  
-print(balance_sheet[0])  
+print(balance_sheet[0], end='\n\n')  
+
+# Get custom data by selecting specific fields and applying filters
+custom_data = client.universal_query(
+    dataset='key_metrics', 
+    fields=['trading_symbol', 'period_end_date', 'price_to_earnings_ratio'],
+    filters={
+        'trading_symbol': {'in': ['AAPL', 'MSFT']}, 
+        'ebitda': {'gt': 1000000000}
+    }
+)
+print(custom_data[0])
 ```
 
 ## Overview
@@ -168,6 +179,9 @@ Handles pagination and aggregates all available records.
 - get_dividends(identifier)
 - get_short_interest(identifier)
 
+### Universal Query
+- universal_query(dataset, fields, filters=None)
+
 
 ## Return Values
 
@@ -183,7 +197,7 @@ When making requests, ensure that each URL ends with ?key=API\_KEY. If the URL a
 
 Some API endpoints may specify a limit on records to be retrieved per API call. To retrieve all the data available from these endpoints, use the offset parameter. For example, if the record limit is 500, then with the first API call, you will retrieve records 0–499, with the second API call records 500–999, etc.
 
-For fast and easy integration into your applications, we recommend using our official [Python SDK](https://github.com/financialdatanet/fdnpy) (available on GitHub). It provides a straightforward way to access all API functionalities. If you are building AI agents, we also provide an official [MCP server](https://financialdata.net/mcp-server). For spreadsheet-based workflows, you can find setup and usage instructions on the [Excel add-in](https://financialdata.net/excel-addin) page.
+If you prefer to query all our financial data through a single, customizable endpoint, see the [Universal Query](https://financialdata.net/universal-query) documentation. We also offer several official tools for fast integration: a [Python SDK](https://github.com/financialdatanet/fdnpy) (available on GitHub), an [MCP server](https://financialdata.net/mcp-server) for AI agents, and an [Excel add-in](https://financialdata.net/excel-addin) for spreadsheet-based workflows.
 
 #### Stock Symbols <code>Free subscription</code>
 
